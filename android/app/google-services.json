@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "172444964829",
+    "firebase_url": "https://autotech-98b84.firebaseio.com",
+    "project_id": "autotech-98b84",
+    "storage_bucket": "autotech-98b84.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:172444964829:android:57c1e110fa82f392f0c834",
+        "android_client_info": {
+          "package_name": "com.example.auto_tech"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "172444964829-v315ue2qip5aq062jvir517hc84g99hc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyATq-21Q9W3CJdrpPe4_rnbOTFOv6cqW_Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "172444964829-v315ue2qip5aq062jvir517hc84g99hc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
