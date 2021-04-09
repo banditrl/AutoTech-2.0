@@ -1,9 +1,10 @@
+import 'package:auto_tech/classes/Car.dart';
+import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../services/car.dart';
-import 'partDashBoard.dart';
+import 'PartDashBoard.dart';
 
 class CarRegister extends StatefulWidget {
   final bool isEdit;
@@ -34,20 +35,20 @@ class _CarRegisterState extends State<CarRegister> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  CarUtilities carUtilities;
+  CarRealtime carRealtime;
 
   @override
   void initState() {
     super.initState();
-    carUtilities = new CarUtilities();
-    carUtilities.initState();
+    carRealtime = new CarRealtime();
+    carRealtime.initState();
     populateFields();
   }
 
   @override
   void dispose() {
     super.dispose();
-    carUtilities.dispose();
+    carRealtime.dispose();
   }
 
   populateFields() {
@@ -77,7 +78,7 @@ class _CarRegisterState extends State<CarRegister> {
     Car car = Car(userKey, teBrand.text, teModel.text, teDescription.text,
         int.parse(teYear.text), int.parse(teMileage.text));
     setState(() {
-      carUtilities.addCar(car);
+      carRealtime.add(car);
     });
     FirebaseDatabase.instance
         .reference()

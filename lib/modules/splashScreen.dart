@@ -1,14 +1,16 @@
+import 'package:auto_tech/classes/Car.dart';
+import 'package:auto_tech/classes/User.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../services/car.dart';
-import 'carRegister.dart';
-import 'partDashBoard.dart';
-import '../services/user.dart';
-import 'userLogin.dart';
+import '../services/realtime/CarRealtime.dart';
+import 'CarRegister.dart';
+import 'PartDashBoard.dart';
+import '../services/realtime/UserRealtime.dart';
+import 'UserLogin.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

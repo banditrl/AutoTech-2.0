@@ -1,13 +1,14 @@
+import 'package:auto_tech/classes/Car.dart';
+import 'package:auto_tech/classes/User.dart';
+import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../services/car.dart';
-import 'carRegister.dart';
-import 'partDashBoard.dart';
-import '../services/user.dart';
+import 'CarRegister.dart';
+import 'PartDashBoard.dart';
 
 class UserLogin extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _UserLoginState extends State<UserLogin> {
   final _key = GlobalKey<FormState>();
   final _keyRegister = GlobalKey<FormState>();
   User user;
-  UserUtilities userUtilities;
+  UserRealtime userRealtime;
   List<String> lstUsers;
 
   void _radio() {
@@ -36,18 +37,18 @@ class _UserLoginState extends State<UserLogin> {
   @override
   void initState() {
     super.initState();
-    userUtilities = new UserUtilities();
-    userUtilities.initState();
+    userRealtime = new UserRealtime();
+    userRealtime.initState();
     loadUsers();
   }
 
   @override
   void dispose() {
     super.dispose();
-    userUtilities.dispose();
+    userRealtime.dispose();
   }
 
-  loadUsers() => lstUsers = userUtilities.getUsers();
+  loadUsers() => lstUsers = userRealtime.getUsers();
 
   registerNewUser(bool isEdit) {
     // registerNewUser(User user, bool isEdit) {
@@ -239,11 +240,11 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   void addUser(User user) {
-    userUtilities.addUser(user);
+    userRealtime.add(user);
   }
 
   void update(User user) {
-    userUtilities.updateUser(user);
+    userRealtime.update(user);
   }
 
   Widget getTextField(String inputBoxName,

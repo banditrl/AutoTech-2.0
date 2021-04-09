@@ -1,3 +1,5 @@
+import 'package:auto_tech/classes/Car.dart';
+import 'package:auto_tech/classes/Part.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flushbar/flushbar.dart';
@@ -8,9 +10,9 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../services/car.dart';
+import '../services/realtime/CarRealtime.dart';
 import 'carRegister.dart';
-import '../services/part.dart';
+import '../services/realtime/PartRealtime.dart';
 import 'userLogin.dart';
 
 class PartDashboard extends StatefulWidget {
@@ -33,24 +35,24 @@ class _MyHomePageState extends State<PartDashboard> {
   Part part;
   bool _anchorToBottom = false;
   bool isFirstOpen;
-  PartUtilities partUtilities;
-  CarUtilities carUtilities;
+  PartRealtime partRealtime;
+  CarRealtime carRealtime;
   _MyHomePageState(this.car);
 
   @override
   void initState() {
     super.initState();
-    partUtilities = new PartUtilities();
-    partUtilities.initState();
-    carUtilities = new CarUtilities();
-    carUtilities.initState();
+    partRealtime = new PartRealtime();
+    partRealtime.initState();
+    carRealtime = new CarRealtime();
+    carRealtime.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
-    partUtilities.dispose();
-    carUtilities.dispose();
+    partRealtime.dispose();
+    carRealtime.dispose();
   }
 
   @override
@@ -153,7 +155,7 @@ class _MyHomePageState extends State<PartDashboard> {
   Widget buildFireBasePartList(context) {
     return FirebaseAnimatedList(
       key: new ValueKey<bool>(_anchorToBottom),
-      query: partUtilities.getPartFromCar(car.key),
+      query: partRealtime.getPartFromCar(car.key),
       reverse: _anchorToBottom,
       sort: _anchorToBottom
           ? (DataSnapshot a, DataSnapshot b) => b.key.compareTo(a.key)
@@ -170,19 +172,19 @@ class _MyHomePageState extends State<PartDashboard> {
 
   void addPart(Part part) {
     setState(() {
-      partUtilities.addPart(part);
+      partRealtime.add(part);
     });
   }
 
   void update(Part part) {
     setState(() {
-      partUtilities.updatePart(part);
+      partRealtime.update(part);
     });
   }
 
   void newMileage(Car car) {
     setState(() {
-      carUtilities.updateCar(car);
+      carRealtime.update(car);
     });
   }
 
@@ -425,7 +427,7 @@ class _MyHomePageState extends State<PartDashboard> {
   deletePart(Part part) {
     Navigator.of(context).pop();
     setState(() {
-      partUtilities.deletePart(part);
+      partRealtime.delete(part);
     });
   }
 
