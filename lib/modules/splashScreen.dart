@@ -6,10 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import '../services/realtime/CarRealtime.dart';
 import 'CarRegister.dart';
 import 'PartDashBoard.dart';
-import '../services/realtime/UserRealtime.dart';
 import 'UserLogin.dart';
 
 class SplashScreen extends StatefulWidget {
