@@ -579,9 +579,7 @@ class _MyHomePageState extends State<PartDashboard> {
     return loginBtn;
   }
 
-  Part getData() {
-    return new Part(car.key, teName.text, car.mileage, int.parse(teLifeSpam.text));
-  }
+  Part getData() => new Part(car.key, teName.text, car.mileage, int.parse(teLifeSpam.text));
 
   Part updateData(Part part) {
     part.name = teName.text;

@@ -12,9 +12,9 @@ class User {
     var value = snapshot.value;
 
     key = snapshot.key;
-    login = value['Login'];
-    password = value['Password'];
-    email = value['Email'];
+    login = value['login'];
+    password = value['password'];
+    email = value['email'];
   }
 
   User.fromSnapshotSingle(DataSnapshot snapshot) {
@@ -23,9 +23,9 @@ class User {
 
     values.forEach((key, values) {
       betaKey = key;
-      login = values["Login"];
-      password = values["Password"];
-      email = values["Email"];
+      login = values["login"];
+      password = values["password"];
+      email = values["email"];
     });
 
     key = betaKey;

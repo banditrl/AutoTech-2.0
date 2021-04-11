@@ -16,12 +16,12 @@ class Car {
     var value = snapshot.value;
 
     key = snapshot.key;
-    userKey = value['UserKey'];
-    brand = value['Brand'];
-    model = value['Model'];
-    description = value['Description'];
-    year = value['Year'];
-    mileage = value['Mileage'];
+    userKey = value['userKey'];
+    brand = value['brand'];
+    model = value['model'];
+    description = value['description'];
+    year = value['year'];
+    mileage = value['mileage'];
   }
 
   Car.fromSnapshotSingle(DataSnapshot snapshot) {
@@ -32,12 +32,12 @@ class Car {
 
       values.forEach((key, values) {
         betaKey = key;
-        userKey = values['UserKey'];
-        brand = values['Brand'];
-        model = values['Model'];
-        description = values['Description'];
-        year = values['Year'];
-        mileage = values['Mileage'];
+        userKey = values['userKey'];
+        brand = values['brand'];
+        model = values['model'];
+        description = values['description'];
+        year = values['year'];
+        mileage = values['mileage'];
       });
 
       key = betaKey;

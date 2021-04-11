@@ -13,10 +13,10 @@ class Part {
     var value = snapshot.value;
     
     key = snapshot.key;
-    carKey = value['CarKey'];
-    name = value['Name'];
-    registeredKM = value['RegisteredKM'];
-    lifeSpam = value['LifeSpam'];
+    carKey = value['carKey'];
+    name = value['name'];
+    registeredKM = value['registeredKM'];
+    lifeSpam = value['lifeSpam'];
   }
 
   Map<String, dynamic> toMap() => {

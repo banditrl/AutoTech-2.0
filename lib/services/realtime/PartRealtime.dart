@@ -9,7 +9,7 @@ class PartRealtime extends CommonRealtime {
   factory PartRealtime() => _instance;
 
   Query getPartFromCar(String carKey) {
-    return database.reference().child('part').orderByChild('CarKey').equalTo(carKey);
+    return database.reference().child('part').orderByChild('carKey').equalTo(carKey);
   }
 }
 
