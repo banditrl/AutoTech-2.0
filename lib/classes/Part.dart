@@ -10,10 +10,20 @@ class Part {
   Part(this.carKey, this.name, this.registeredKM, this.lifeSpam);
 
   Part.fromSnapshot(DataSnapshot snapshot) {
+    var value = snapshot.value;
+    
     key = snapshot.key;
-    carKey = snapshot.value['CarKey'];
-    name = snapshot.value['Name'];
-    registeredKM = int.parse(snapshot.value['RegisteredKM']);
-    lifeSpam = int.parse(snapshot.value['LifeSpam']);
+    carKey = value['CarKey'];
+    name = value['Name'];
+    registeredKM = value['RegisteredKM'];
+    lifeSpam = value['LifeSpam'];
   }
+
+  Map<String, dynamic> toMap() => {
+        'key': key,
+        'carKey': carKey,
+        'name': name,
+        'registeredKM': registeredKM,
+        'lifeSpam': lifeSpam
+      };
 }

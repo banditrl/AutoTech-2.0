@@ -9,25 +9,32 @@ class User {
   User(this.login, this.password, this.email);
 
   User.fromSnapshot(DataSnapshot snapshot) {
+    var value = snapshot.value;
+
     key = snapshot.key;
-    login = snapshot.value['Login'];
-    password = snapshot.value['Password'];
-    email = snapshot.value['Email'];
+    login = value['Login'];
+    password = value['Password'];
+    email = value['Email'];
   }
 
   User.fromSnapshotSingle(DataSnapshot snapshot) {
     String betaKey;
     Map<dynamic, dynamic> values = snapshot.value;
+
     values.forEach((key, values) {
       betaKey = key;
       login = values["Login"];
       password = values["Password"];
       email = values["Email"];
     });
+
     key = betaKey;
   }
 
   User.getKeyFromProfs(String loginKey) {
     key = loginKey;
   }
+
+  Map<String, dynamic> toMap() =>
+      {'key': key, 'login': login, 'password': password, 'email': email};
 }

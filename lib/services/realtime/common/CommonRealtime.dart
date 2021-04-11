@@ -1,7 +1,8 @@
 import 'dart:async';
+import 'package:auto_tech/utils/Converters.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-abstract class CommonRealtime {
+class CommonRealtime with Converters {
   String _colletion;
   int _counter;
   DatabaseError _error;
@@ -52,9 +53,7 @@ abstract class CommonRealtime {
       return mutableData;
     });
 
-    _dbRef.push().set(<String, dynamic>{
-      "" : ""
-    }).then((_) {
+    _dbRef.push().set(convertDynamicToMap(entity)).then((_) {
       print('Transaction  committed.');
     });
   }
@@ -66,9 +65,7 @@ abstract class CommonRealtime {
   }
 
   void update(dynamic entity) async {
-    await _dbRef.child(entity.key).update({
-      "" : ""
-    }).then((_) {
+    await _dbRef.child(entity.key).update(convertDynamicToMap(entity)).then((_) {
       print('Transaction  committed.');
     });
   }
