@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
-  const Loading({
-    this.color = Colors.black87,
-    this.text,
-    this.textColor = Colors.black87,
-  });
+  const Loading(
+      {this.color = Colors.black87,
+      this.text,
+      this.textColor = Colors.black87,
+      this.textAxis = Axis.vertical});
   final Color color;
   final String text;
   final Color textColor;
+  final Axis textAxis;
 
   List<Widget> buildWidgets() {
     var widgets = new List<Widget>();
@@ -26,7 +27,7 @@ class Loading extends StatelessWidget {
     if (text != null) {
       widgets.add(
         Padding(
-          padding: EdgeInsets.only(top: 70.0),
+          padding: EdgeInsets.only(top: 20.0, right: 50.0),
         ),
       );
 
@@ -48,8 +49,12 @@ class Loading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: buildWidgets(),
-    );
+    return textAxis == Axis.vertical
+        ? Column(
+            children: buildWidgets(),
+          )
+        : Row(
+            children: buildWidgets(),
+          );
   }
 }
