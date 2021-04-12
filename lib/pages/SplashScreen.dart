@@ -1,5 +1,6 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/User.dart';
+import 'package:auto_tech/widgets/stateless/Loading.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -57,63 +58,27 @@ class _SplashScreenState extends State<SplashScreen> {
                 ),
               ),
               Expanded(
-                flex: 1,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    SpinKitCircle(
-                      color: Colors.black,
-                      size: 50.0,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 20.0),
-                    ),
-                    Text(
-                      'Preparing your car helper...',
-                      softWrap: true,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontFamily: "Poppins-Bold",
-                          fontSize: 14.0,
-                          color: Colors.black),
-                    ),
+                    Loading(text: 'Preparing your car helper...',)
                   ],
                 ),
-              )
+              ),
             ],
-          ),
-          // Align(
-          //   child: Container(
-          //     child: Image.asset('assets/images/citysketch.png'),
-          //   ),
-          //   alignment: FractionalOffset.bottomCenter,
-          // ),
-          Align(
-            child: Container(
-              child: Image.asset('assets/images/nightsky.png'),
-              // foregroundDecoration: BoxDecoration(
-              //   color: Colors.grey,
-              //   backgroundBlendMode: BlendMode.saturation,
-              // ),
-            ),
-            alignment: FractionalOffset.topCenter,
           ),
         ],
       ),
     );
   }
 
-  /// NEW CODE.
-  /// We can do long run task here.
-  /// In this example, we just simply delay 3 seconds, nothing complicated.
   Future initData() async {
     await Future.delayed(Duration(seconds: 5));
   }
 
-  /// Navigate to Home screen.
   void navigateToHomeScreen() {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => screenToRedirect));
+    // Navigator.pushReplacement(
+    //     context, MaterialPageRoute(builder: (context) => screenToRedirect));
   }
 
   redirectUser() async {
