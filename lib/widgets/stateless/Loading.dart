@@ -5,10 +5,13 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 class Loading extends StatelessWidget {
   const Loading(
       {this.color = Colors.black87,
+      this.size = 50.0,
       this.text,
       this.textColor = Colors.black87,
       this.textAxis = Axis.vertical});
+
   final Color color;
+  final double size;
   final String text;
   final Color textColor;
   final Axis textAxis;
@@ -19,7 +22,7 @@ class Loading extends StatelessWidget {
     widgets.add(
       SpinKitRing(
         color: color,
-        size: 50.0,
+        size: size,
         lineWidth: 3.0,
       ),
     );

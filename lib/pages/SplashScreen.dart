@@ -5,7 +5,6 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'CarRegister.dart';
 import 'PartDashBoard.dart';
