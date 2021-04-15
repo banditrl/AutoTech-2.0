@@ -1,5 +1,9 @@
 mixin Converters {
   Map<String, dynamic> convertDynamicToMap(dynamic object) {
-    return object.toMap();
+    try {
+      return object.toMap();
+    } catch (error) {
+      throw error;
+    }
   }
 }
