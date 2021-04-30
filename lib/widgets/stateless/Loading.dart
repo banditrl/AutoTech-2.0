@@ -19,7 +19,7 @@ class Loading extends StatelessWidget {
       : super(key: key);
 
   List<Widget> _buildWidgets() {
-    var widgets = new List<Widget>();
+    var widgets = [];
 
     widgets.add(
       SpinKitRing(
@@ -53,13 +53,11 @@ class Loading extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return textAxis == Axis.vertical
-        ? Column(
-            children: _buildWidgets(),
-          )
-        : Row(
-            children: _buildWidgets(),
-          );
-  }
+  Widget build(BuildContext context) => textAxis == Axis.vertical
+      ? Column(
+          children: _buildWidgets(),
+        )
+      : Row(
+          children: _buildWidgets(),
+        );
 }

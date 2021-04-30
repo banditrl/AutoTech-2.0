@@ -7,7 +7,7 @@ class UserRealtime extends CommonRealtime {
   factory UserRealtime() => _instance;
 
   getUsers() {
-    List<String> lstUsers = new List<String>();
+    var lstUsers = [];
     get().once().then((onValue) {
       Map<dynamic, dynamic> values = onValue.value;
       values.forEach((key, values) {

@@ -57,6 +57,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/autotech.png
+    - assets/images/autotech-logo-white.png
     - assets/images/carsketch.png
     - assets/images/citysketch.png
     - assets/images/loginbackground.png

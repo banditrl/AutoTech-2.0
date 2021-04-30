@@ -26,7 +26,7 @@ class _UserLoginState extends State<UserLogin> {
   final _keyRegister = GlobalKey<FormState>();
   User user;
   UserRealtime userRealtime;
-  List<String> lstUsers;
+  List lstUsers;
 
   void _radio() {
     setState(() {
@@ -90,7 +90,7 @@ class _UserLoginState extends State<UserLogin> {
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        resizeToAvoidBottomPadding: true,
+        resizeToAvoidBottomInset: true,
         body: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -171,7 +171,7 @@ class _UserLoginState extends State<UserLogin> {
                             decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
                                   Color.fromRGBO(58, 66, 86, 1.0),
-                                  Color(0xFF6078ea)
+                                  Color(0xFF6078ea),                                
                                 ]),
                                 borderRadius: BorderRadius.circular(6.0),
                                 boxShadow: [

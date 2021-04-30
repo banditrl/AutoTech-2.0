@@ -10,7 +10,7 @@ class CommonRealtime with Converters {
   DatabaseReference _dbRef;
   StreamSubscription<Event> _counterSubscription;
   StreamSubscription<Event> _messagesSubscription;
-  FirebaseDatabase database = new FirebaseDatabase();
+  FirebaseDatabase database = FirebaseDatabase();
 
   CommonRealtime(this._colletion);
 
