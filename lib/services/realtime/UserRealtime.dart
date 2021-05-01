@@ -1,3 +1,5 @@
+import 'package:auto_tech/classes/User.dart';
+
 import 'common/CommonRealtime.dart';
 
 class UserRealtime extends CommonRealtime {
@@ -6,7 +8,7 @@ class UserRealtime extends CommonRealtime {
 
   factory UserRealtime() => _instance;
 
-  getUsers() {
+  List getUsers() {
     var lstUsers = [];
     get().once().then((onValue) {
       Map<dynamic, dynamic> values = onValue.value;
@@ -17,6 +19,15 @@ class UserRealtime extends CommonRealtime {
     });
     return lstUsers;
   }
+
+  Future<User> getUserByLoginKey(String loginKey) async {
+    var user = await database
+        .reference()
+        .child('user')
+        .orderByKey()
+        .equalTo(loginKey)
+        .once();
+
+    return User.fromSnapshotSingle(user);
+  }
 }
-
-
