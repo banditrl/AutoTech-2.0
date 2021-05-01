@@ -52,27 +52,23 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<PageEnum> retrieveCorrectPage() async {
-    var pageToRedirect = PageEnum.userLogin;
     var prefs = await SharedPreferences.getInstance();
     var loginKey = prefs.getString('loginKey');
 
-    if (loginKey == null) return pageToRedirect;
+    if (loginKey == null) return PageEnum.userLogin;
 
     _user = await userRealtime.getUserByLoginKey(loginKey);
 
-    if (_user == null) return pageToRedirect;
+    if (_user == null) return PageEnum.userLogin;
 
-    pageToRedirect = PageEnum.carRegister;
     prefs.setString('loginKey', _user.key);
-
     _car = await carRealtime.getCarByUserKey(_user.key);
 
-    if (_car == null) return pageToRedirect;
+    if (_car == null) return PageEnum.carRegister;
 
-    pageToRedirect = PageEnum.partDashboard;
     prefs.setString('carKey', _car.key);
 
-    return pageToRedirect;
+    return PageEnum.partDashboard;
   }
 
   void preLoad(PageEnum pageToRedirect) {
