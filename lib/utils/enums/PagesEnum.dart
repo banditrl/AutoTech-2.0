@@ -1,0 +1,1 @@
+enum PagesEnum { splashScreen, userLogin, carRegister, partDashboard }

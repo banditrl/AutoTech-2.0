@@ -1,6 +1,7 @@
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/Colors.dart';
+import 'package:auto_tech/utils/enums/PagesEnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,8 +12,6 @@ import 'CarRegister.dart';
 import 'PartDashBoard.dart';
 import 'UserLogin.dart';
 
-enum PageEnum { userLogin, carRegister, partDashboard }
-
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -20,8 +19,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  UserRealtime userRealtime;
-  CarRealtime carRealtime;
+  UserRealtime _userRealtime;
+  CarRealtime _carRealtime;
   AnimationController _animationController;
   User _user;
   Car _car;
@@ -31,11 +30,11 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    userRealtime = UserRealtime();
-    userRealtime.initState();
+    _userRealtime = UserRealtime();
+    _userRealtime.initState();
 
-    carRealtime = CarRealtime();
-    carRealtime.initState();
+    _carRealtime = CarRealtime();
+    _carRealtime.initState();
 
     initData();
   }
@@ -45,41 +44,41 @@ class _SplashScreenState extends State<SplashScreen>
       var pageToRedirect = await retrieveCorrectPage();
       preLoad(pageToRedirect);
 
-      await Future.delayed(Duration(seconds: 5), () => redirect());
+      await Future.delayed(Duration(seconds: 3), () => redirect());
     } catch (error) {
       print(error);
     }
   }
 
-  Future<PageEnum> retrieveCorrectPage() async {
+  Future<PagesEnum> retrieveCorrectPage() async {
     var prefs = await SharedPreferences.getInstance();
     var loginKey = prefs.getString('loginKey');
 
-    if (loginKey == null) return PageEnum.userLogin;
+    if (loginKey == null) return PagesEnum.userLogin;
 
-    _user = await userRealtime.getUserByLoginKey(loginKey);
+    _user = await _userRealtime.getUserByLoginKey(loginKey);
 
-    if (_user == null) return PageEnum.userLogin;
+    if (_user == null) return PagesEnum.userLogin;
 
     prefs.setString('loginKey', _user.key);
-    _car = await carRealtime.getCarByUserKey(_user.key);
+    _car = await _carRealtime.getCarByUserKey(_user.key);
 
-    if (_car == null) return PageEnum.carRegister;
+    if (_car == null) return PagesEnum.carRegister;
 
     prefs.setString('carKey', _car.key);
 
-    return PageEnum.partDashboard;
+    return PagesEnum.partDashboard;
   }
 
-  void preLoad(PageEnum pageToRedirect) {
+  void preLoad(PagesEnum pageToRedirect) {
     switch (pageToRedirect) {
-      case PageEnum.userLogin:
+      case PagesEnum.userLogin:
         _page = UserLogin();
         break;
-      case PageEnum.carRegister:
+      case PagesEnum.carRegister:
         _page = CarRegister(isEdit: false, userKey: _user.key);
         break;
-      case PageEnum.partDashboard:
+      case PagesEnum.partDashboard:
         _page = PartDashboard(car: _car);
         break;
       default:
