@@ -1,6 +1,7 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/User.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
+import 'package:auto_tech/widgets/stateless/ShadowedText.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -98,23 +99,16 @@ class _UserLoginState extends State<UserLogin> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.only(top: 20.0),
-                    child: Image.asset(
-                      "assets/images/carsketch.png",
-                      width: ScreenUtil.getInstance().setWidth(500),
-                      height: ScreenUtil.getInstance().setHeight(500),
-                    )),
+                  padding: EdgeInsets.only(top: 20.0),
+                  child: Image.asset(
+                    "assets/images/carsketch.png",
+                    width: ScreenUtil.getInstance().setWidth(500),
+                    height: ScreenUtil.getInstance().setHeight(500),
+                  ),
+                ),
                 Expanded(
                   child: Container(),
                 ),
-                // Opacity(
-                //   opacity: 0.1,
-                //   child:
-                // Image.asset("assets/images/loginbackground.png",
-                //   width: ScreenUtil.getInstance().setWidth(1000),
-                //   height: ScreenUtil.getInstance().setHeight(500),
-                // ),
-                // )
               ],
             ),
             SingleChildScrollView(
@@ -124,24 +118,24 @@ class _UserLoginState extends State<UserLogin> {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        // Image.asset(
-                        //   "assets/images/autotech.png",
-                        //   width: ScreenUtil.getInstance().setWidth(110),
-                        //   height: ScreenUtil.getInstance().setHeight(110),
-                        // ),
-                        Text("AUTO TECH",
-                            style: TextStyle(
-                                fontFamily: "Poppins-Bold",
-                                fontSize: ScreenUtil.getInstance().setSp(46),
-                                letterSpacing: .6,
-                                fontWeight: FontWeight.bold))
+                        Text(
+                          "AUTO TECH",
+                          style: TextStyle(
+                            fontFamily: "Poppins-Bold",
+                            fontSize: ScreenUtil.getInstance().setSp(46),
+                            letterSpacing: .6,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                     SizedBox(
                       height: ScreenUtil.getInstance().setHeight(180),
                     ),
                     formCard(context),
-                    SizedBox(height: ScreenUtil.getInstance().setHeight(40)),
+                    SizedBox(
+                      height: ScreenUtil.getInstance().setHeight(40),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -157,11 +151,13 @@ class _UserLoginState extends State<UserLogin> {
                             SizedBox(
                               width: 8.0,
                             ),
-                            Text("Keep signed in",
-                                style: TextStyle(
-                                    fontSize:
-                                        ScreenUtil.getInstance().setSp(25),
-                                    fontFamily: "Poppins-Medium"))
+                            Text(
+                              "Keep signed in",
+                              style: TextStyle(
+                                fontSize: ScreenUtil.getInstance().setSp(25),
+                                fontFamily: "Poppins-Medium",
+                              ),
+                            ),
                           ],
                         ),
                         InkWell(
@@ -169,33 +165,32 @@ class _UserLoginState extends State<UserLogin> {
                             width: ScreenUtil.getInstance().setWidth(330),
                             height: ScreenUtil.getInstance().setHeight(100),
                             decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
+                              gradient: LinearGradient(
+                                colors: [
                                   Color.fromRGBO(58, 66, 86, 1.0),
-                                  Color(0xFF6078ea),                                
-                                ]),
-                                borderRadius: BorderRadius.circular(6.0),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Color(0xFF6078ea).withOpacity(.3),
-                                      offset: Offset(0.0, 8.0),
-                                      blurRadius: 8.0)
-                                ]),
+                                  Color(0xFF6078ea),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(6.0),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Color(0xFF6078ea).withOpacity(.3),
+                                  offset: Offset(0.0, 8.0),
+                                  blurRadius: 8.0,
+                                ),
+                              ],
+                            ),
                             child: Material(
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () => login(),
                                 child: Center(
-                                  child: Text("SIGNIN",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontFamily: "Poppins-Bold",
-                                          fontSize: 18,
-                                          letterSpacing: 1.0)),
+                                  child: ShadowedText("SIGNIN"),
                                 ),
                               ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     SizedBox(
@@ -205,10 +200,14 @@ class _UserLoginState extends State<UserLogin> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         horizontalLine(),
-                        Text("New User?",
-                            style: TextStyle(
-                                fontSize: 16.0, fontFamily: "Poppins-Medium")),
-                        horizontalLine()
+                        Text(
+                          "New User?",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: "Poppins-Medium",
+                          ),
+                        ),
+                        horizontalLine(),
                       ],
                     ),
                     SizedBox(
@@ -222,17 +221,20 @@ class _UserLoginState extends State<UserLogin> {
                       children: <Widget>[
                         InkWell(
                           onTap: () => registerNewUser(false),
-                          child: Text("SignUp",
-                              style: TextStyle(
-                                  color: Color(0xFF5d74e3),
-                                  fontFamily: "Poppins-Bold")),
-                        )
+                          child: Text(
+                            "SignUp",
+                            style: TextStyle(
+                              color: Color(0xFF5d74e3),
+                              fontFamily: "Poppins-Bold",
+                            ),
+                          ),
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

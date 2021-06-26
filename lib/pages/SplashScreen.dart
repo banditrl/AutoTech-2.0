@@ -2,6 +2,7 @@ import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/Colors.dart';
 import 'package:auto_tech/utils/enums/PagesEnum.dart';
+import 'package:auto_tech/widgets/stateless/ShadowedText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,7 +96,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Animation<double> animate() {
     _animationController = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
       vsync: this,
     )..forward(from: 0);
 
@@ -124,10 +125,9 @@ class _SplashScreenState extends State<SplashScreen>
         child: Center(
           child: FadeTransition(
             opacity: animate(),
-            child: Image.asset(
-              'assets/images/autotech-logo-white.png',
-              height: 150,
-              width: 150,
+            child: new ShadowedText(
+              "AutoTech",
+              size: 40,
             ),
           ),
         ),
