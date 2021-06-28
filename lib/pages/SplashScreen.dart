@@ -1,3 +1,4 @@
+import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/Colors.dart';
@@ -19,7 +20,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, ResponsiveMixin {
   UserRealtime _userRealtime;
   CarRealtime _carRealtime;
   AnimationController _animationController;
@@ -114,6 +115,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
+    super.responsiveInit(context);
     ScreenUtil.instance = ScreenUtil.getInstance()..init(context);
     ScreenUtil.instance =
         ScreenUtil(width: 750, height: 1334, allowFontScaling: true);
@@ -128,6 +130,7 @@ class _SplashScreenState extends State<SplashScreen>
             child: new ShadowedText(
               "AutoTech",
               size: 40,
+              fontWeight: FontWeight.w100,
             ),
           ),
         ),

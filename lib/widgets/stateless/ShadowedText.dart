@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class ShadowedText extends StatelessWidget {
   final String text;
   final double size;
+  final FontWeight fontWeight;
 
   const ShadowedText(
     this.text, {
     Key key,
     this.size = 18.0,
+    this.fontWeight = FontWeight.w400,
   }) : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class ShadowedText extends StatelessWidget {
       style: TextStyle(
         color: Colors.white,
         fontSize: size,
-        fontWeight: FontWeight.w300,
+        fontWeight: fontWeight,
         letterSpacing: 2,
         shadows: [
           Shadow(

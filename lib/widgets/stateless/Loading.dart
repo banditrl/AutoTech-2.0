@@ -53,11 +53,14 @@ class Loading extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => textAxis == Axis.vertical
-      ? Column(
-          children: _buildWidgets(),
-        )
-      : Row(
-          children: _buildWidgets(),
-        );
+  Widget build(BuildContext context) {
+    if (textAxis == Axis.vertical)
+      return Column(
+        children: _buildWidgets(),
+      );
+      
+    return Row(
+      children: _buildWidgets(),
+    );
+  }
 }
