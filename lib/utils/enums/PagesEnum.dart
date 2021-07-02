@@ -1,1 +1,1 @@
-enum PagesEnum { splashScreen, userLogin, carRegister, partDashboard }
+enum PagesEnum { splashScreen, login, carRegister, dashboard }

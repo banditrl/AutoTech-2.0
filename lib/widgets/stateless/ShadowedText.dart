@@ -19,6 +19,7 @@ class ShadowedText extends StatelessWidget {
       style: TextStyle(
         color: Colors.white,
         fontSize: size,
+        fontFamily: "Poppins-Medium",
         fontWeight: fontWeight,
         letterSpacing: 2,
         shadows: [

@@ -1,5 +1,5 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
-import 'package:auto_tech/pages/PartDashBoard.dart';
+import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/Colors.dart';
@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../classes/Car.dart';
-import '../classes/User.dart';
-import 'CarRegister.dart';
-import 'UserLogin.dart';
+import '../../classes/Car.dart';
+import '../../classes/User.dart';
+import '../CarRegister/CarRegister.dart';
+import '../Login/Login.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -56,11 +56,11 @@ class _SplashScreenState extends State<SplashScreen>
     var prefs = await SharedPreferences.getInstance();
     var loginKey = prefs.getString('loginKey');
 
-    if (loginKey == null) return PagesEnum.userLogin;
+    if (loginKey == null) return PagesEnum.login;
 
     _user = await _userRealtime.getUserByLoginKey(loginKey);
 
-    if (_user == null) return PagesEnum.userLogin;
+    if (_user == null) return PagesEnum.login;
 
     prefs.setString('loginKey', _user.key);
     _car = await _carRealtime.getCarByUserKey(_user.key);
@@ -69,22 +69,22 @@ class _SplashScreenState extends State<SplashScreen>
 
     prefs.setString('carKey', _car.key);
 
-    return PagesEnum.partDashboard;
+    return PagesEnum.dashboard;
   }
 
   void preLoad(PagesEnum pageToRedirect) {
     switch (pageToRedirect) {
-      case PagesEnum.userLogin:
-        _page = UserLogin();
+      case PagesEnum.login:
+        _page = Login();
         break;
       case PagesEnum.carRegister:
         _page = CarRegister(isEdit: false, userKey: _user.key);
         break;
-      case PagesEnum.partDashboard:
-        _page = PartDashboard(car: _car);
+      case PagesEnum.dashboard:
+        _page = DashBoard(car: _car);
         break;
       default:
-        _page = UserLogin();
+        _page = Login();
     }
   }
 

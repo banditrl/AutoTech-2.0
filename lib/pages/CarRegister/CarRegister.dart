@@ -1,5 +1,5 @@
 import 'package:auto_tech/classes/Car.dart';
-import 'package:auto_tech/pages/PartDashBoard.dart';
+import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +88,7 @@ class _CarRegisterState extends State<CarRegister> {
         .then((onValue) {
       car = Car.fromSnapshotSingle(onValue);
       Navigator.push(context,
-          MaterialPageRoute(builder: (context) => PartDashboard(car: car)));
+          MaterialPageRoute(builder: (context) => DashBoard(car: car)));
     });
   }
 

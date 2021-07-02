@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'mixins/PortraitMode.dart';
-import 'pages/SplashScreen.dart';
+import 'pages/SplashScreen/SplashScreen.dart';
 
 void main() => runApp(MyApp());
 

@@ -1,7 +1,7 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/User.dart';
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
-import 'package:auto_tech/pages/PartDashBoard.dart';
+import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/validations/MessageFlushbar.dart';
 import 'package:auto_tech/widgets/stateful/RadioButton.dart';
@@ -16,14 +16,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'CarRegister.dart';
+import '../CarRegister/CarRegister.dart';
 
-class UserLogin extends StatefulWidget {
+class Login extends StatefulWidget {
   @override
-  _UserLoginState createState() => new _UserLoginState();
+  _LoginState createState() => new _LoginState();
 }
 
-class _UserLoginState extends State<UserLogin> with ResponsiveMixin {
+class _LoginState extends State<Login> with ResponsiveMixin {
   bool _isSelected = false;
   final teLogin = TextEditingController();
   final tePassword = TextEditingController();
@@ -315,7 +315,7 @@ class _UserLoginState extends State<UserLogin> with ResponsiveMixin {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PartDashboard(car: car),
+              builder: (context) => DashBoard(car: car),
             ),
           );
         } else {

@@ -1,7 +1,7 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/Part.dart';
-import 'package:auto_tech/pages/CarRegister.dart';
-import 'package:auto_tech/pages/UserLogin.dart';
+import 'package:auto_tech/pages/CarRegister/CarRegister.dart';
+import 'package:auto_tech/pages/Login/Login.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/PartRealtime.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -14,16 +14,16 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class PartDashboard extends StatefulWidget {
+class DashBoard extends StatefulWidget {
   final Car car;
 
-  const PartDashboard({Key key, this.car}) : super(key: key);
+  const DashBoard({Key key, this.car}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => new _MyHomePageState(car);
+  _DashBoardState createState() => new _DashBoardState(car);
 }
 
-class _MyHomePageState extends State<PartDashboard> {
+class _DashBoardState extends State<DashBoard> {
   final Car car;
   final numberFormat = NumberFormat("#,###");
   final teName = TextEditingController();
@@ -36,7 +36,7 @@ class _MyHomePageState extends State<PartDashboard> {
   bool isFirstOpen;
   PartRealtime partRealtime;
   CarRealtime carRealtime;
-  _MyHomePageState(this.car);
+  _DashBoardState(this.car);
 
   @override
   void initState() {
@@ -377,7 +377,7 @@ class _MyHomePageState extends State<PartDashboard> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserLogin()));
+        context, MaterialPageRoute(builder: (context) => Login()));
   }
 
   //Get first letter from the name of part
@@ -788,6 +788,6 @@ class _AppDrawerState extends State<AppDrawer> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => UserLogin()));
+        context, MaterialPageRoute(builder: (context) => Login()));
   }
 }
