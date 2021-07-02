@@ -1,11 +1,14 @@
+import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
-class Textbox extends StatelessWidget {
+class Textbox extends StatelessWidget with ResponsiveMixin {
   final TextEditingController textController;
   final bool obscureText;
   final TextInputType inputType;
   final Function validation;
-  final String textName;
+  final String textLabel;
+  final String textHint;
+  final double spacing;
 
   Textbox(
       {Key key,
@@ -13,26 +16,42 @@ class Textbox extends StatelessWidget {
       this.obscureText = false,
       this.inputType = TextInputType.text,
       this.validation,
-      this.textName})
+      this.textLabel,
+      this.textHint,
+      this.spacing = 10})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: new TextFormField(
-        obscureText: obscureText,
-        controller: textController,
-        keyboardType: inputType,
-        validator: (value) {
-          if (validation != null) return validation.call(value);
-          return null;
-        },
-        decoration: new InputDecoration(
-          hintText: textName,
-          hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0),
+    return ListBody(
+      children: [
+        SizedBox(
+          height: responsiveHeight(spacing),
         ),
-      ),
+        Text(
+          textLabel,
+          style: TextStyle(
+            fontFamily: "Poppins-Medium",
+            fontSize: responsiveFont(26),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: new TextFormField(
+            obscureText: obscureText,
+            controller: textController,
+            keyboardType: inputType,
+            validator: (value) => validation?.call(value),
+            decoration: new InputDecoration(
+              hintText: textHint != null ? textHint : textLabel.toLowerCase(),
+              hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: responsiveHeight(spacing),
+        ),
+      ],
     );
   }
 }

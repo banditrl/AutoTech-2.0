@@ -1,10 +1,9 @@
 import 'package:auto_tech/classes/Car.dart';
+import 'package:auto_tech/pages/PartDashBoard.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'PartDashBoard.dart';
 
 class CarRegister extends StatefulWidget {
   final bool isEdit;

@@ -10,7 +10,7 @@ class ButtonCTA extends StatelessWidget with ResponsiveMixin {
   final double width;
   final double height;
 
-  const ButtonCTA({Key key, this.onTap, this.text, this.width = 330, this.height = 100})
+  const ButtonCTA(this.text, {Key key, this.onTap, this.width = 330, this.height = 100})
       : super(key: key);
 
   @override

@@ -1,5 +1,9 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/Part.dart';
+import 'package:auto_tech/pages/CarRegister.dart';
+import 'package:auto_tech/pages/UserLogin.dart';
+import 'package:auto_tech/services/realtime/CarRealtime.dart';
+import 'package:auto_tech/services/realtime/PartRealtime.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flushbar/flushbar.dart';
@@ -9,11 +13,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../services/realtime/CarRealtime.dart';
-import 'carRegister.dart';
-import '../services/realtime/PartRealtime.dart';
-import 'userLogin.dart';
 
 class PartDashboard extends StatefulWidget {
   final Car car;

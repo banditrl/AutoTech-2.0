@@ -1,4 +1,5 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
+import 'package:auto_tech/pages/PartDashBoard.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/Colors.dart';
@@ -11,7 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../classes/Car.dart';
 import '../classes/User.dart';
 import 'CarRegister.dart';
-import 'PartDashBoard.dart';
 import 'UserLogin.dart';
 
 class SplashScreen extends StatefulWidget {

@@ -1,42 +1,39 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/User.dart';
+import 'package:auto_tech/mixins/ResponsiveScreen.dart';
+import 'package:auto_tech/pages/PartDashBoard.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/validations/MessageFlushbar.dart';
+import 'package:auto_tech/widgets/stateful/RadioButton.dart';
 import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
+import 'package:auto_tech/widgets/stateless/ButtonLabel.dart';
+import 'package:auto_tech/widgets/stateless/DivisorLabel.dart';
 import 'package:auto_tech/widgets/stateless/FormCard.dart';
 import 'package:auto_tech/widgets/stateless/Popup.dart';
-import 'package:auto_tech/widgets/stateless/ShadowedText.dart';
+import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'CarRegister.dart';
-import 'PartDashBoard.dart';
 
 class UserLogin extends StatefulWidget {
   @override
   _UserLoginState createState() => new _UserLoginState();
 }
 
-class _UserLoginState extends State<UserLogin> {
+class _UserLoginState extends State<UserLogin> with ResponsiveMixin {
   bool _isSelected = false;
   final teLogin = TextEditingController();
   final tePassword = TextEditingController();
   final teLoginRegister = TextEditingController();
   final tePasswordRegister = TextEditingController();
   final teEmail = TextEditingController();
-  final _key = GlobalKey<FormState>();
   final _keyRegister = GlobalKey<FormState>();
   User user;
   UserRealtime userRealtime;
   List lstUsers;
-
-  void _radio() {
-    setState(() {
-      _isSelected = !_isSelected;
-    });
-  }
 
   @override
   void initState() {
@@ -52,9 +49,69 @@ class _UserLoginState extends State<UserLogin> {
     userRealtime.dispose();
   }
 
+  loginFormCard() {
+    var nullValidation =
+        (value) => value.isEmpty ? 'Please enter some text' : null;
+
+    return <Widget>[
+      Text(
+        "Login",
+        style: TextStyle(
+          fontSize: ScreenUtil.getInstance().setSp(45),
+          fontFamily: "Poppins-Bold",
+          letterSpacing: .6,
+        ),
+      ),
+      Textbox(
+        textController: teLogin,
+        validation: nullValidation,
+        textLabel: "Username",
+      ),
+      Textbox(
+        textController: tePassword,
+        validation: nullValidation,
+        textLabel: "Password",
+      ),
+    ];
+  }
+
+  registerFormCard(BuildContext context) {
+    return <Widget>[
+      Textbox(
+        textController: teLoginRegister,
+        validation: (value) => value? true: false,
+        textLabel: "Login",
+      ),
+
+      Textbox(
+        textController: tePasswordRegister,
+        validation: (value) => value? true: false,
+        textLabel: "Password",
+      ),
+
+      Textbox(
+        textController: teEmail,
+        validation: (value) => value? true: false,
+        textLabel: "Email",
+      ),
+
+      new GestureDetector(
+        onTap: () => onTap(context),
+        child: new Container(
+          margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+          child: getAppBorderButton(
+              "Register User", EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0)),      
+        ),
+      ),
+    ];
+  }
+
+  var forgotPasswordFormCard = Text("forgotPasswordFormCard");
+
   loadUsers() => lstUsers = userRealtime.getUsers();
 
-  registerNewUser(bool isEdit) {
+  registerNewUser() {
+    var isEdit = false;
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -84,7 +141,7 @@ class _UserLoginState extends State<UserLogin> {
               height: ScreenUtil.getInstance().setHeight(30),
             ),
             new GestureDetector(
-              onTap: () => onTap(isEdit, context),
+              //onTap: () => onTap(isEdit, context),
               child: new Container(
                 margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
                 child: getAppBorderButton(
@@ -96,32 +153,6 @@ class _UserLoginState extends State<UserLogin> {
           return Popup(title: "Register user", content: content);
         });
   }
-
-  Widget radioButton(bool isSelected) => Container(
-        width: 16.0,
-        height: 16.0,
-        padding: EdgeInsets.all(2.0),
-        decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(width: 2.0, color: Colors.black)),
-        child: isSelected
-            ? Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: Colors.black),
-              )
-            : Container(),
-      );
-
-  Widget horizontalLine() => Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Container(
-          width: ScreenUtil.getInstance().setWidth(120),
-          height: 1.0,
-          color: Colors.black26.withOpacity(.2),
-        ),
-      );
 
   @override
   Widget build(BuildContext context) {
@@ -177,69 +208,27 @@ class _UserLoginState extends State<UserLogin> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: 12.0,
-                            ),
-                            GestureDetector(
-                              onTap: _radio,
-                              child: radioButton(_isSelected),
-                            ),
-                            SizedBox(
-                              width: 8.0,
-                            ),
-                            Text(
-                              "Keep signed in",
-                              style: TextStyle(
-                                fontSize: ScreenUtil.getInstance().setSp(25),
-                                fontFamily: "Poppins-Medium",
-                              ),
-                            ),
-                          ],
-                        ),
+                        RadioButton(text: "Keep signed in"),
                         ButtonCTA(
+                          "SIGNIN",
                           onTap: () => login(),
-                          text: "SIGNIN",
                         ),
                       ],
                     ),
                     SizedBox(
-                      height: ScreenUtil.getInstance().setHeight(40),
+                      height: responsiveHeight(40),
+                    ),
+                    DivisorLabel("New User?"),
+                    SizedBox(
+                      height: responsiveHeight(70),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        horizontalLine(),
-                        Text(
-                          "New User?",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: "Poppins-Medium",
-                          ),
-                        ),
-                        horizontalLine(),
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil.getInstance().setHeight(40),
-                    ),
-                    SizedBox(
-                      height: ScreenUtil.getInstance().setHeight(30),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        InkWell(
-                          onTap: () => registerNewUser(false),
-                          child: Text(
-                            "SignUp",
-                            style: TextStyle(
-                              color: Color(0xFF5d74e3),
-                              fontFamily: "Poppins-Bold",
-                            ),
-                          ),
-                        ),
+                        ButtonLabel(
+                          "SignUp",
+                          onTap: () => registerNewUser(),
+                        )
                       ],
                     ),
                   ],
@@ -345,34 +334,7 @@ class _UserLoginState extends State<UserLogin> {
   }
 
   Widget formCard(BuildContext context) {
-    var content = <Widget>[
-      Text("Login",
-          style: TextStyle(
-              fontSize: ScreenUtil.getInstance().setSp(45),
-              fontFamily: "Poppins-Bold",
-              letterSpacing: .6)),
-      SizedBox(
-        height: ScreenUtil.getInstance().setHeight(10),
-      ),
-      Text("Username",
-          style: TextStyle(
-              fontFamily: "Poppins-Medium",
-              fontSize: ScreenUtil.getInstance().setSp(26))),
-      getTextField('username', teLogin, false, context),
-      SizedBox(
-        height: ScreenUtil.getInstance().setHeight(10),
-      ),
-      Text("Password",
-          style: TextStyle(
-              fontFamily: "Poppins-Medium",
-              fontSize: ScreenUtil.getInstance().setSp(26))),
-      getTextField('password', tePassword, true, context),
-      SizedBox(
-        height: ScreenUtil.getInstance().setHeight(10),
-      ),
-    ];
-
-    return FormCard(content: content);
+    return FormCard(content: loginFormCard());
   }
 
   Widget getTextFieldRegister(String inputBoxName,
@@ -423,10 +385,11 @@ class _UserLoginState extends State<UserLogin> {
       child: new Text(
         buttonLabel,
         style: new TextStyle(
-            color: const Color(0xFF28324E),
-            fontSize: 18.0,
-            letterSpacing: 0.3,
-            fontFamily: "Poppins-Medium"),
+          color: const Color(0xFF28324E),
+          fontSize: 18.0,
+          letterSpacing: 0.3,
+          fontFamily: "Poppins-Medium",
+        ),
       ),
     );
     return loginBtn;
@@ -434,7 +397,10 @@ class _UserLoginState extends State<UserLogin> {
 
   User getData() {
     return new User(
-        teLoginRegister.text, tePasswordRegister.text, teEmail.text);
+      teLoginRegister.text,
+      tePasswordRegister.text,
+      teEmail.text,
+    );
   }
 
   User updateData(User user) {
@@ -444,11 +410,11 @@ class _UserLoginState extends State<UserLogin> {
     return user;
   }
 
-  onTap(bool isEdit, BuildContext context) {
+  onTap(BuildContext context) {
     final form = _keyRegister.currentState;
     if (form.validate()) {
       form.save();
-      if (!isEdit) addUser(getData());
+      addUser(getData());
       Navigator.of(context).pop();
       showSuccessFloatingFlushbar(context, 'User Created Successfully!');
       loadUsers();
