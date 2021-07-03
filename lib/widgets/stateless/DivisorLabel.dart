@@ -4,15 +4,18 @@ import 'HorizontalLine.dart';
 
 class DivisorLabel extends StatelessWidget {
   final String text;
+  final double lineWidth;
 
-  const DivisorLabel(this.text, {Key key}) : super(key: key);
+  const DivisorLabel(this.text, {Key key, this.lineWidth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        HorizontalLine(),
+        HorizontalLine(
+          width: lineWidth,
+        ),
         Text(
           text,
           style: TextStyle(
@@ -20,7 +23,9 @@ class DivisorLabel extends StatelessWidget {
             fontFamily: "Poppins-Medium",
           ),
         ),
-        HorizontalLine(),
+        HorizontalLine(
+          width: lineWidth,
+        ),
       ],
     );
   }

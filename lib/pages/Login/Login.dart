@@ -2,12 +2,12 @@ import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/classes/User.dart';
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
+import 'package:auto_tech/pages/Login/Forms/ForgotForm.dart';
+import 'package:auto_tech/pages/Login/Forms/LoginForm.dart';
+import 'package:auto_tech/pages/Login/Forms/RegisterForm.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
+import 'package:auto_tech/utils/enums/LoginFormsEnum.dart';
 import 'package:auto_tech/utils/validations/MessageFlushbar.dart';
-import 'package:auto_tech/widgets/stateful/RadioButton.dart';
-import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
-import 'package:auto_tech/widgets/stateless/ButtonLabel.dart';
-import 'package:auto_tech/widgets/stateless/DivisorLabel.dart';
 import 'package:auto_tech/widgets/stateless/FormCard.dart';
 import 'package:auto_tech/widgets/stateless/Popup.dart';
 import 'package:auto_tech/widgets/stateless/Textbox.dart';
@@ -19,6 +19,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../CarRegister/CarRegister.dart';
 
 class Login extends StatefulWidget {
+  final LoginFormsEnum formToBuild;
+
+  const Login({Key key, this.formToBuild = LoginFormsEnum.loginForm})
+      : super(key: key);
+
   @override
   _LoginState createState() => new _LoginState();
 }
@@ -79,28 +84,25 @@ class _LoginState extends State<Login> with ResponsiveMixin {
     return <Widget>[
       Textbox(
         textController: teLoginRegister,
-        validation: (value) => value? true: false,
+        validation: (value) => value ? true : false,
         textLabel: "Login",
       ),
-
       Textbox(
         textController: tePasswordRegister,
-        validation: (value) => value? true: false,
+        validation: (value) => value ? true : false,
         textLabel: "Password",
       ),
-
       Textbox(
         textController: teEmail,
-        validation: (value) => value? true: false,
+        validation: (value) => value ? true : false,
         textLabel: "Email",
       ),
-
       new GestureDetector(
         onTap: () => onTap(context),
         child: new Container(
           margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
           child: getAppBorderButton(
-              "Register User", EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0)),      
+              "Register User", EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0)),
         ),
       ),
     ];
@@ -154,6 +156,22 @@ class _LoginState extends State<Login> with ResponsiveMixin {
         });
   }
 
+  Widget loadFormCard() {
+    switch (widget.formToBuild) {
+      case LoginFormsEnum.forgotForm:
+        return ForgotForm();
+        break;
+      case LoginFormsEnum.loginForm:
+        return LoginForm();
+        break;
+      case LoginFormsEnum.registerForm:
+        return RegisterForm();
+        break;
+      default:
+        return LoginForm();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
@@ -181,59 +199,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
               ],
             ),
             SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(left: 28.0, right: 28.0, top: 60.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Text(
-                          "AUTO TECH",
-                          style: TextStyle(
-                            fontFamily: "Poppins-Bold",
-                            fontSize: ScreenUtil.getInstance().setSp(46),
-                            letterSpacing: .6,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: ScreenUtil.getInstance().setHeight(180),
-                    ),
-                    formCard(context),
-                    SizedBox(
-                      height: ScreenUtil.getInstance().setHeight(40),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        RadioButton(text: "Keep signed in"),
-                        ButtonCTA(
-                          "SIGNIN",
-                          onTap: () => login(),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: responsiveHeight(40),
-                    ),
-                    DivisorLabel("New User?"),
-                    SizedBox(
-                      height: responsiveHeight(70),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        ButtonLabel(
-                          "SignUp",
-                          onTap: () => registerNewUser(),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              child: loadFormCard(),
             ),
           ],
         ),

@@ -6,7 +6,7 @@ class HorizontalLine extends StatelessWidget with ResponsiveMixin {
   final double height;
   final double horizontalPadding;
 
-  const HorizontalLine({Key key, this.width = 120, this.height = 1, this.horizontalPadding = 16})
+  const HorizontalLine({Key key, this.width, this.height = 1, this.horizontalPadding = 16})
       : super(key: key);
 
   @override

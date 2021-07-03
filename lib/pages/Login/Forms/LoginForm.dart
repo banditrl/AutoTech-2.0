@@ -38,53 +38,63 @@ class LoginForm extends StatelessWidget with ResponsiveMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
-          children: <Widget>[
-            Text(
-              "AUTO TECH",
-              style: TextStyle(
-                fontFamily: "Poppins-Bold",
-                fontSize: responsiveFont(45),
-                letterSpacing: .6,
-                fontWeight: FontWeight.bold,
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 28.0,
+        right: 28.0,
+        top: 60.0,
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(
+                "AUTO TECH",
+                style: TextStyle(
+                  fontFamily: "Poppins-Bold",
+                  fontSize: responsiveFont(45),
+                  letterSpacing: .6,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: responsiveHeight(180),
-        ),
-        formCard(),
-        SizedBox(height: responsiveHeight(40)),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            RadioButton(text: "Keep signed in"),
-            ButtonCTA(
-              "SIGNIN",
-              onTap: () => login(),
-            ),
-          ],
-        ),
-        SizedBox(
-          height: responsiveHeight(40),
-        ),
-        DivisorLabel("New User?"),
-        SizedBox(
-          height: responsiveHeight(70),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ButtonLabel(
-              "SignUp",
-              onTap: () => registerNewUser(),
-            )
-          ],
-        ),
-      ],
+            ],
+          ),
+          SizedBox(
+            height: responsiveHeight(180),
+          ),
+          formCard(),
+          SizedBox(height: responsiveHeight(40)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              RadioButton(text: "Keep signed in"),
+              ButtonCTA(
+                "SIGNIN",
+                onTap: () => login(),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: responsiveHeight(40),
+          ),
+          DivisorLabel(
+            "New User?",
+            lineWidth: 120,
+          ),
+          SizedBox(
+            height: responsiveHeight(70),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ButtonLabel(
+                "SignUp",
+                onTap: () => registerNewUser(),
+              )
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
