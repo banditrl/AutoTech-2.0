@@ -70,11 +70,11 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
 
     var car = await _carRealtime.getCarByUserKey(user.key);
 
-    if (car == null) {
+    if (car.key == null) {
       _redirectToCarRegister(context, user.key);
       return;
     }
-
+    //_redirectToCarRegister(context, user.key);
     _redirectToDashBoard(context, car);
   }
 
@@ -83,7 +83,6 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
       context,
       MaterialPageRoute(
         builder: (context) => CarRegister(
-          isEdit: false,
           userKey: userKey,
         ),
       ),

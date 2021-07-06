@@ -781,7 +781,7 @@ class _AppDrawerState extends State<AppDrawer> {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => CarRegister(isEdit: true, car: car)));
+            builder: (context) => CarRegister(car: car)));
   }
 
   void logoff() async {

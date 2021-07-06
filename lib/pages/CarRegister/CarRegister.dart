@@ -1,167 +1,193 @@
 import 'package:auto_tech/classes/Car.dart';
+import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
-import 'package:firebase_database/firebase_database.dart';
+import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
+import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CarRegister extends StatefulWidget {
-  final bool isEdit;
   final String userKey;
   final Car car;
 
-  const CarRegister({Key key, this.isEdit, this.userKey, this.car})
-      : super(key: key);
+  const CarRegister({Key key, this.userKey, this.car}) : super(key: key);
 
   @override
-  _CarRegisterState createState() =>
-      new _CarRegisterState(isEdit, userKey, car);
+  _CarRegisterState createState() => _CarRegisterState();
 }
 
-class _CarRegisterState extends State<CarRegister> {
-  final bool isEdit;
-  final String userKey;
-  final Car car;
+class _CarRegisterState extends State<CarRegister> with ResponsiveMixin {
+  final _carRealtime = CarRealtime();
+  final _key = GlobalKey<FormState>();
+  final _teBrand = TextEditingController();
+  final _teModel = TextEditingController();
+  final _teDescription = TextEditingController();
+  final _teYear = TextEditingController();
+  final _teMileage = TextEditingController();
+  final _nullValidation =
+      (value) => value.isEmpty ? 'Please enter some text' : null;
 
-  _CarRegisterState(this.isEdit, this.userKey, this.car);
-
-  final teBrand = TextEditingController();
-  final teModel = TextEditingController();
-  final teDescription = TextEditingController();
-  final teYear = TextEditingController();
-  final teMileage = TextEditingController();
-
-  final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _formKey = GlobalKey<FormState>();
-
-  CarRealtime carRealtime;
+  bool _hasCarRegistered = false;
 
   @override
   void initState() {
     super.initState();
-    carRealtime = new CarRealtime();
-    carRealtime.initState();
-    populateFields();
+    _carRealtime.initState();
+    _initData();
   }
 
   @override
   void dispose() {
     super.dispose();
-    carRealtime.dispose();
+    _carRealtime.dispose();
   }
 
-  populateFields() {
+  void _initData() {
+    var car = widget.car;
+
     if (car != null) {
-      teBrand.text = car.brand;
-      teModel.text = car.model;
-      teDescription.text = car.description;
-      teYear.text = car.year.toString();
-      teMileage.text = car.mileage.toString();
+      _hasCarRegistered = true;
+      _teBrand.text = car.brand;
+      _teModel.text = car.model;
+      _teDescription.text = car.description;
+      _teYear.text = car.year.toString();
+      _teMileage.text = car.mileage.toString();
     }
   }
 
-  void submit() {
-    final form = _formKey.currentState;
+  void _register(BuildContext context) {
+    final form = _key.currentState;
 
-    if (form.validate()) {
-      form.save();
-      if (isEdit) {
-        updateCar();
-      } else {
-        registerCar();
-      }
-    }
+    if (!form.validate()) return;
+
+    var car = Car(
+        widget.userKey,
+        _teBrand.text,
+        _teModel.text,
+        _teDescription.text,
+        int.parse(_teYear.text),
+        int.parse(_teMileage.text));
+
+    _carRealtime.add(car);
+
+    _redirectToDashBoard(context, car);
   }
 
-  void registerCar() {
-    Car car = Car(userKey, teBrand.text, teModel.text, teDescription.text,
-        int.parse(teYear.text), int.parse(teMileage.text));
-    setState(() {
-      carRealtime.add(car);
-    });
-    FirebaseDatabase.instance
-        .reference()
-        .child('car')
-        .orderByChild('userKey')
-        .equalTo(userKey)
-        .once()
-        .then((onValue) {
-      car = Car.fromSnapshotSingle(onValue);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DashBoard(car: car)));
-    });
-  }
-
-  void updateCar() {
-    print('sucess');
+  void _redirectToDashBoard(BuildContext context, Car car) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (
+          context,
+        ) =>
+            DashBoard(
+          car: car,
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new WillPopScope(
-      onWillPop: isEdit ? () async => true : () async => false,
+      onWillPop: () async => _hasCarRegistered,
       child: Scaffold(
-        key: _scaffoldKey,
-        appBar: isEdit
+        appBar: _hasCarRegistered
             ? AppBar(
                 centerTitle: true,
-                title: new Text('My Car',
-                    style: new TextStyle(fontFamily: "Poppins-Medium")),
+                title: new Text(
+                  'My Car',
+                  style: new TextStyle(
+                    fontFamily: "Poppins-Medium",
+                  ),
+                ),
               )
             : null,
         body: Form(
-          key: _formKey,
+          key: _key,
           child: Center(
             child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(30),
+                    height: responsiveHeight(30),
                   ),
-                  formCard(context),
-                  isEdit
-                      ? Container()
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[
-                            InkWell(
-                              child: Container(
-                                width: ScreenUtil.getInstance().setWidth(330),
-                                height: ScreenUtil.getInstance().setHeight(100),
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(colors: [
-                                      Color.fromRGBO(58, 66, 86, 1.0),
-                                      Color(0xFF6078ea)
-                                    ]),
-                                    borderRadius: BorderRadius.circular(6.0),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color:
-                                              Color(0xFF6078ea).withOpacity(.3),
-                                          offset: Offset(0.0, 8.0),
-                                          blurRadius: 8.0)
-                                    ]),
-                                child: Material(
-                                  color: Colors.transparent,
-                                  child: InkWell(
-                                    onTap: () => submit(),
-                                    child: Center(
-                                      child: Text("REGISTER",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontFamily: "Poppins-Bold",
-                                              fontSize: 18,
-                                              letterSpacing: 1.0)),
-                                    ),
+                  Container(
+                    width: double.infinity,
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          _hasCarRegistered
+                              ? Container()
+                              : Text(
+                                  "Car Register",
+                                  style: TextStyle(
+                                    fontSize:
+                                        ScreenUtil.getInstance().setSp(45),
+                                    fontFamily: "Poppins-Bold",
+                                    letterSpacing: .6,
                                   ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
+                          Textbox(
+                            textController: _teBrand,
+                            spacing: 15,
+                            textLabel: "Brand",
+                            textHint: "ex: Audi",
+                            enabled: !_hasCarRegistered,
+                            validation: _nullValidation,
+                          ),
+                          Textbox(
+                            textController: _teModel,
+                            spacing: 15,
+                            textLabel: "Model",
+                            textHint: "ex: A5",
+                            enabled: !_hasCarRegistered,
+                            validation: _nullValidation,
+                          ),
+                          Textbox(
+                            textController: _teDescription,
+                            spacing: 15,
+                            textLabel: "Description",
+                            textHint: "ex: White 2.0 TURBO",
+                            enabled: !_hasCarRegistered,
+                            validation: _nullValidation,
+                          ),
+                          Textbox(
+                            textController: _teYear,
+                            spacing: 15,
+                            textLabel: "Year",
+                            enabled: !_hasCarRegistered,
+                            validation: _nullValidation,
+                          ),
+                          Textbox(
+                            textController: _teMileage,
+                            spacing: 15,
+                            textLabel: "Mileage",
+                            textHint: "ex: 21500",
+                            enabled: !_hasCarRegistered,
+                            validation: _nullValidation,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: responsiveHeight(150),
+                    alignment: Alignment.bottomCenter,
+                    child: _hasCarRegistered
+                        ? Container()
+                        : ButtonCTA(
+                            "REGISTER",
+                            width: 500,
+                            onTap: () => _register(context),
+                          ),
+                  ),
                   SizedBox(
-                    height: ScreenUtil.getInstance().setHeight(30),
+                    height: responsiveHeight(30),
                   ),
                 ],
               ),
@@ -170,90 +196,5 @@ class _CarRegisterState extends State<CarRegister> {
         ),
       ),
     );
-  }
-
-  Widget formCard(BuildContext context) {
-    return new Container(
-      width: double.infinity,
-      child: Padding(
-        padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            isEdit
-                ? Container()
-                : Text("Car Register",
-                    style: TextStyle(
-                        fontSize: ScreenUtil.getInstance().setSp(45),
-                        fontFamily: "Poppins-Bold",
-                        letterSpacing: .6)),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(30),
-            ),
-            Text("Brand",
-                style: TextStyle(
-                    fontFamily: "Poppins-Medium",
-                    fontSize: ScreenUtil.getInstance().setSp(26))),
-            getTextField('ex: Audi', teBrand, false, context),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(30),
-            ),
-            Text("Model",
-                style: TextStyle(
-                    fontFamily: "Poppins-Medium",
-                    fontSize: ScreenUtil.getInstance().setSp(26))),
-            getTextField('ex: A5', teModel, false, context),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(35),
-            ),
-            Text("Description",
-                style: TextStyle(
-                    fontFamily: "Poppins-Medium",
-                    fontSize: ScreenUtil.getInstance().setSp(26))),
-            getTextField('ex: White 2.0 TURBO', teDescription, false, context),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(35),
-            ),
-            Text("Year",
-                style: TextStyle(
-                    fontFamily: "Poppins-Medium",
-                    fontSize: ScreenUtil.getInstance().setSp(26))),
-            getTextField('year', teYear, true, context),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(35),
-            ),
-            Text("Mileage",
-                style: TextStyle(
-                    fontFamily: "Poppins-Medium",
-                    fontSize: ScreenUtil.getInstance().setSp(26))),
-            getTextField('ex: 21500', teMileage, true, context),
-            SizedBox(
-              height: ScreenUtil.getInstance().setHeight(35),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget getTextField(String inputBoxName,
-      TextEditingController inputBoxController, bool isNumberOnly, context) {
-    var btnAdd = new Padding(
-      padding: const EdgeInsets.all(5.0),
-      child: new TextFormField(
-        validator: (value) {
-          if (value.isEmpty) return 'Please enter some text';
-          return null;
-        },
-        controller: inputBoxController,
-        enabled: isEdit ? false : true,
-        keyboardType: isNumberOnly ? TextInputType.number : TextInputType.text,
-        decoration: new InputDecoration(
-          hintText: inputBoxName,
-          hintStyle: TextStyle(color: Colors.grey, fontSize: 12.0),
-        ),
-      ),
-    );
-    return btnAdd;
   }
 }

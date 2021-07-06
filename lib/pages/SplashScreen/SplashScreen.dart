@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen>
         _page = Login();
         break;
       case PagesEnum.carRegister:
-        _page = CarRegister(isEdit: false, userKey: _user.key);
+        _page = CarRegister(userKey: _user.key);
         break;
       case PagesEnum.dashboard:
         _page = DashBoard(car: _car);
