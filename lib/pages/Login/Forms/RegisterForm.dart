@@ -82,7 +82,7 @@ class _RegisterFormState extends State<RegisterForm> with ResponsiveMixin {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context,) => Login(
+        builder: (context) => Login(
           formToBuild: LoginFormsEnum.loginForm,
         ),
       ),

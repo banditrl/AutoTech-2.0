@@ -1,11 +1,10 @@
 import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
+import 'package:auto_tech/pages/CarRegister/Forms/CarRegisterForm.dart';
 import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
-import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CarRegister extends StatefulWidget {
   final String userKey;
@@ -25,8 +24,6 @@ class _CarRegisterState extends State<CarRegister> with ResponsiveMixin {
   final _teDescription = TextEditingController();
   final _teYear = TextEditingController();
   final _teMileage = TextEditingController();
-  final _nullValidation =
-      (value) => value.isEmpty ? 'Please enter some text' : null;
 
   bool _hasCarRegistered = false;
 
@@ -78,32 +75,51 @@ class _CarRegisterState extends State<CarRegister> with ResponsiveMixin {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (
-          context,
-        ) =>
-            DashBoard(
+        builder: (context) => DashBoard(
           car: car,
         ),
       ),
     );
   }
 
+  Widget buildUpdate(BuildContext context) {
+    return null;
+  }
+
+  Widget _addAppBar() {
+    if (!_hasCarRegistered) return null;
+
+    return AppBar(
+      centerTitle: true,
+      title: new Text(
+        'My Car',
+        style: new TextStyle(
+          fontFamily: "Poppins-Medium",
+        ),
+      ),
+    );
+  }
+
+  Widget _addCtaButton() {
+    if (_hasCarRegistered) return Container();
+
+    return Container(
+      height: responsiveHeight(150),
+      alignment: Alignment.bottomCenter,
+      child: ButtonCTA(
+        "REGISTER",
+        width: 500,
+        onTap: () => _register(context),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return new WillPopScope(
-      onWillPop: () async => _hasCarRegistered,
+    return WillPopScope(
+      onWillPop: () async => true,
       child: Scaffold(
-        appBar: _hasCarRegistered
-            ? AppBar(
-                centerTitle: true,
-                title: new Text(
-                  'My Car',
-                  style: new TextStyle(
-                    fontFamily: "Poppins-Medium",
-                  ),
-                ),
-              )
-            : null,
+        appBar: _addAppBar(),
         body: Form(
           key: _key,
           child: Center(
@@ -114,78 +130,15 @@ class _CarRegisterState extends State<CarRegister> with ResponsiveMixin {
                   SizedBox(
                     height: responsiveHeight(30),
                   ),
-                  Container(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          _hasCarRegistered
-                              ? Container()
-                              : Text(
-                                  "Car Register",
-                                  style: TextStyle(
-                                    fontSize:
-                                        ScreenUtil.getInstance().setSp(45),
-                                    fontFamily: "Poppins-Bold",
-                                    letterSpacing: .6,
-                                  ),
-                                ),
-                          Textbox(
-                            textController: _teBrand,
-                            spacing: 15,
-                            textLabel: "Brand",
-                            textHint: "ex: Audi",
-                            enabled: !_hasCarRegistered,
-                            validation: _nullValidation,
-                          ),
-                          Textbox(
-                            textController: _teModel,
-                            spacing: 15,
-                            textLabel: "Model",
-                            textHint: "ex: A5",
-                            enabled: !_hasCarRegistered,
-                            validation: _nullValidation,
-                          ),
-                          Textbox(
-                            textController: _teDescription,
-                            spacing: 15,
-                            textLabel: "Description",
-                            textHint: "ex: White 2.0 TURBO",
-                            enabled: !_hasCarRegistered,
-                            validation: _nullValidation,
-                          ),
-                          Textbox(
-                            textController: _teYear,
-                            spacing: 15,
-                            textLabel: "Year",
-                            enabled: !_hasCarRegistered,
-                            validation: _nullValidation,
-                          ),
-                          Textbox(
-                            textController: _teMileage,
-                            spacing: 15,
-                            textLabel: "Mileage",
-                            textHint: "ex: 21500",
-                            enabled: !_hasCarRegistered,
-                            validation: _nullValidation,
-                          ),
-                        ],
-                      ),
-                    ),
+                  CarRegisterForm(
+                    teBrand: _teBrand,
+                    teDescription: _teDescription,
+                    teMileage: _teMileage,
+                    teModel: _teModel,
+                    teYear: _teYear,
+                    hasCarRegistered: _hasCarRegistered,
                   ),
-                  Container(
-                    height: responsiveHeight(150),
-                    alignment: Alignment.bottomCenter,
-                    child: _hasCarRegistered
-                        ? Container()
-                        : ButtonCTA(
-                            "REGISTER",
-                            width: 500,
-                            onTap: () => _register(context),
-                          ),
-                  ),
+                  _addCtaButton(),
                   SizedBox(
                     height: responsiveHeight(30),
                   ),
