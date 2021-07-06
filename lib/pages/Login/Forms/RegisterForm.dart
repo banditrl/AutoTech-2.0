@@ -12,10 +12,6 @@ import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatefulWidget {
-  final List<String> users;
-
-  RegisterForm({Key key, this.users}) : super(key: key);
-
   @override
   _RegisterFormState createState() => _RegisterFormState();
 }
@@ -27,12 +23,14 @@ class _RegisterFormState extends State<RegisterForm> with ResponsiveMixin {
   final _teLogin = TextEditingController();
   final _tePassword = TextEditingController();
   final _teEmail = TextEditingController();
+  List<String> _users;
 
   @override
   void initState() {
     super.initState();
     _userRealtime.initState();
     _carRealtime.initState();
+    _users = _userRealtime.getUsers();
   }
 
   @override
@@ -45,7 +43,7 @@ class _RegisterFormState extends State<RegisterForm> with ResponsiveMixin {
   _loginValidation(value) {
     if (value.isEmpty) return 'Please enter some text';
 
-    if (widget.users.any((user) => user == value))
+    if (_users.any((user) => user == value))
       return 'Please choose another username';
   }
 

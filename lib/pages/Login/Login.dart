@@ -2,7 +2,6 @@ import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/pages/Login/Forms/ForgotForm.dart';
 import 'package:auto_tech/pages/Login/Forms/LoginForm.dart';
 import 'package:auto_tech/pages/Login/Forms/RegisterForm.dart';
-import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/enums/LoginFormsEnum.dart';
 import 'package:flutter/material.dart';
 
@@ -17,20 +16,15 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> with ResponsiveMixin {
-  final _userRealtime = UserRealtime();
-  List<String> _users;
 
   @override
   void initState() {
     super.initState();
-    _userRealtime.initState();
-    _users = _userRealtime.getUsers();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _userRealtime.dispose();
   }
 
   Widget _loadFormCard() {
@@ -42,7 +36,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
         return LoginForm();
         break;
       case LoginFormsEnum.registerForm:
-        return RegisterForm(users: _users);
+        return RegisterForm();
         break;
       default:
         return LoginForm();
