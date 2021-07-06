@@ -49,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   Future<PagesEnum> retrieveCorrectPage() async {
     var prefs = await SharedPreferences.getInstance();
+
     var userKey = prefs.getString('userKey');
 
     if (userKey == null) return PagesEnum.login;
@@ -58,6 +59,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (_user == null) return PagesEnum.login;
 
     prefs.setString('userKey', _user.key);
+    
     _car = await _carRealtime.getCarByUserKey(_user.key);
 
     if (_car == null) return PagesEnum.carRegister;

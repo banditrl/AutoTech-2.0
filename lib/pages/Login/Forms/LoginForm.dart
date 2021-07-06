@@ -74,7 +74,7 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
       _redirectToCarRegister(context, user.key);
       return;
     }
-    //_redirectToCarRegister(context, user.key);
+
     _redirectToDashBoard(context, car);
   }
 
