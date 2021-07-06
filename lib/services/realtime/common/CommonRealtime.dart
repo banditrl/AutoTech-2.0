@@ -9,7 +9,6 @@ class CommonRealtime with Converters {
   DatabaseReference _counterRef;
   DatabaseReference _dbRef;
   StreamSubscription<Event> _counterSubscription;
-  StreamSubscription<Event> _messagesSubscription;
   FirebaseDatabase database = FirebaseDatabase();
 
   CommonRealtime(this._colletion);
@@ -71,7 +70,6 @@ class CommonRealtime with Converters {
   }
 
   void dispose() {
-    _messagesSubscription.cancel();
     _counterSubscription.cancel();
   }
 }

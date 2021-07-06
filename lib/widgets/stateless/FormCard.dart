@@ -2,12 +2,18 @@ import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
 class FormCard extends StatelessWidget with ResponsiveMixin {
+  final Key formKey;
   final List<Widget> content;
   final String title;
   final double height;
 
-  const FormCard({Key key, this.content, this.title, this.height = 500})
-      : super(key: key);
+  const FormCard({
+    Key key,
+    this.formKey,
+    this.content,
+    this.title,
+    this.height = 500,
+  }) : super(key: key);
 
   List<Widget> insertTitleWidget() {
     var titleWidget = Text(
@@ -27,7 +33,7 @@ class FormCard extends StatelessWidget with ResponsiveMixin {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: key,
+      key: formKey,
       child: Container(
         width: double.infinity,
         height: responsiveHeight(height),

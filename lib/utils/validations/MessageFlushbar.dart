@@ -1,4 +1,4 @@
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 
 void showSuccessFloatingFlushbar(BuildContext context, String message) {
@@ -32,7 +32,7 @@ void showInformationFloatingFlushbar(BuildContext context, String message) {
 Flushbar _buildFlushBar(IconData icon, List<Color> colors, String message) {
   return Flushbar(
     margin: EdgeInsets.all(10),
-    borderRadius: 8,
+    borderRadius: BorderRadius.all(Radius.circular(8)),
     icon: Icon(icon, size: 20),
     backgroundGradient: LinearGradient(
       colors: colors,

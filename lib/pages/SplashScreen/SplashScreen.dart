@@ -21,8 +21,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin, ResponsiveMixin {
-  UserRealtime _userRealtime;
-  CarRealtime _carRealtime;
+  final _userRealtime = UserRealtime();
+  final _carRealtime = CarRealtime();
   AnimationController _animationController;
   User _user;
   Car _car;
@@ -31,13 +31,8 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
-
-    _userRealtime = UserRealtime();
     _userRealtime.initState();
-
-    _carRealtime = CarRealtime();
     _carRealtime.initState();
-
     initData();
   }
 
@@ -58,7 +53,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     if (userKey == null) return PagesEnum.login;
 
-    _user = await _userRealtime.getUserByLoginKey(userKey);
+    _user = await _userRealtime.getUserByUserKey(userKey);
 
     if (_user == null) return PagesEnum.login;
 

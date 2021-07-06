@@ -7,7 +7,7 @@ import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/enums/LoginFormsEnum.dart';
 import 'package:auto_tech/utils/validations/MessageFlushbar.dart';
-import 'package:auto_tech/widgets/stateful/RadioButton.dart';
+import 'package:auto_tech/widgets/stateless/RadioButton.dart';
 import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
 import 'package:auto_tech/widgets/stateless/ButtonLabel.dart';
 import 'package:auto_tech/widgets/stateless/DivisorLabel.dart';
@@ -24,6 +24,7 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
   final _userRealtime = UserRealtime();
   final _carRealtime = CarRealtime();
+  final _key = GlobalKey<FormState>();
   final _teLogin = TextEditingController();
   final _tePassword = TextEditingController();
   final _nullValidation =
@@ -45,10 +46,14 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
     _carRealtime.dispose();
   }
 
-  void login(BuildContext context) async {
+  void _login(BuildContext context) async {
+    var form = _key.currentState;
+
+    if (!form.validate()) return;
+
     var user = await _userRealtime.getUserByLogin(_teLogin.text);
 
-    if (user == null) {
+    if (user.key == null) {
       showErrorFloatingFlushbar(context, 'User not found');
       return;
     }
@@ -62,18 +67,18 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
       var cache = await SharedPreferences.getInstance();
       cache.setString('userKey', user.key);
     }
-    
+
     var car = await _carRealtime.getCarByUserKey(user.key);
 
     if (car == null) {
-      redirectToCarRegister(context, user.key);
+      _redirectToCarRegister(context, user.key);
       return;
     }
 
-    redirectToDashBoard(context, car);
+    _redirectToDashBoard(context, car);
   }
 
-  void redirectToCarRegister(BuildContext context, String userKey) {
+  void _redirectToCarRegister(BuildContext context, String userKey) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -85,7 +90,7 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
     );
   }
 
-  void redirectToDashBoard(BuildContext context, Car car) {
+  void _redirectToDashBoard(BuildContext context, Car car) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -94,7 +99,7 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
     );
   }
 
-  void redirectToUserRegister(BuildContext context) {
+  void _redirectToUserRegister(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -132,6 +137,7 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
             height: responsiveHeight(180),
           ),
           FormCard(
+            formKey: _key,
             title: "Login",
             content: [
               Textbox(
@@ -159,7 +165,7 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
               ),
               ButtonCTA(
                 "SIGNIN",
-                onTap: () => login(context),
+                onTap: () => _login(context),
               ),
             ],
           ),
@@ -178,7 +184,7 @@ class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
             children: <Widget>[
               ButtonLabel(
                 "SignUp",
-                onTap: () => redirectToUserRegister(context),
+                onTap: () => _redirectToUserRegister(context),
               )
             ],
           ),

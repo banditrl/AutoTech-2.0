@@ -6,7 +6,7 @@ import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/PartRealtime.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -618,7 +618,7 @@ class _DashBoardState extends State<DashBoard> {
       BuildContext context, bool success, String message) {
     Flushbar(
       margin: EdgeInsets.all(10),
-      borderRadius: 8,
+      borderRadius: BorderRadius.all(Radius.circular(8)),
       icon: Icon(success ? Icons.check : Icons.clear, size: 20),
       backgroundGradient: LinearGradient(
         colors: success

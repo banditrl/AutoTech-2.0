@@ -21,7 +21,7 @@ class User {
     String betaKey;
     Map<dynamic, dynamic> values = snapshot.value;
 
-    values.forEach((key, values) {
+    values?.forEach((key, values) {
       betaKey = key;
       login = values["login"];
       password = values["password"];

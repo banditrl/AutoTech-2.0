@@ -38,7 +38,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
   final _keyRegister = GlobalKey<FormState>();
   User user;
   UserRealtime userRealtime;
-  List users;
+  List<String> users;
 
   @override
   void initState() {
