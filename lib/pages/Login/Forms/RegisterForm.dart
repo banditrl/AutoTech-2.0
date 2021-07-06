@@ -6,56 +6,33 @@ import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
 
 class RegisterForm extends StatelessWidget with ResponsiveMixin {
+  final List users;
+
+  RegisterForm({Key key, this.users}) : super(key: key);
+
   final teLogin = TextEditingController();
   final tePassword = TextEditingController();
   final teEmail = TextEditingController();
 
-  formCard() {
-    var loginValidation =
-        (value) => value.isEmpty ? 'Please enter some text' : null;
-
-    var passwordValidation =
-        (value) => value.isEmpty ? 'Please enter some text' : null;
-
-    var emailValidation =
-        (value) => value.isEmpty ? 'Please enter some text' : null;
-
-    return FormCard(
-      title: "Register",
-      height: 750,
-      content: [
-        Textbox(
-          textController: teLogin,
-          validation: loginValidation,
-          textLabel: "Login",
-        ),
-        Textbox(
-          textController: tePassword,
-          validation: passwordValidation,
-          textLabel: "Password",
-        ),
-        Textbox(
-          textController: teEmail,
-          validation: emailValidation,
-          textLabel: "Email",
-        ),
-        SizedBox(
-          height: responsiveHeight(60),
-        ),
-        Center(
-          child: ButtonCTA(
-            "CREATE USER",
-            width: 500,
-            onTap: () => register(),
-          ),
-        ),
-      ],
-    );
-  }
-
-  navigateBack() => null;
+  navigateToLogin() => null;
 
   register() => null;
+
+  loginValidation(value) {
+    if (value.isEmpty) return 'Please enter some text';
+
+    if (users.any((user) => user == value))
+      return 'Please choose another username';
+  }
+
+  passwordValidation(value) {
+    if (8 > value.length) return 'Password must have 8 characters';
+  }
+
+  emailValidation(value) {
+    if (!value.contains('@') || !value.contains('.com'))
+      return 'Please insert a valid E-mail';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +53,7 @@ class RegisterForm extends StatelessWidget with ResponsiveMixin {
                   size: 50,
                 ),
                 onPressed: () {
-                  navigateBack();
+                  navigateToLogin();
                 },
               ),
             ],
@@ -84,7 +61,37 @@ class RegisterForm extends StatelessWidget with ResponsiveMixin {
           SizedBox(
             height: responsiveHeight(180),
           ),
-          formCard(),
+          FormCard(
+            title: "Register",
+            height: 750,
+            content: [
+              Textbox(
+                textController: teLogin,
+                validation: (value) => loginValidation(value),
+                textLabel: "Login",
+              ),
+              Textbox(
+                textController: tePassword,
+                validation: (value) => passwordValidation(value),
+                textLabel: "Password",
+              ),
+              Textbox(
+                textController: teEmail,
+                validation: (value) => emailValidation(value),
+                textLabel: "Email",
+              ),
+              SizedBox(
+                height: responsiveHeight(60),
+              ),
+              Center(
+                child: ButtonCTA(
+                  "CREATE USER",
+                  width: 500,
+                  onTap: () => register(),
+                ),
+              ),
+            ],
+          ),
           SizedBox(
             height: responsiveHeight(80),
           ),

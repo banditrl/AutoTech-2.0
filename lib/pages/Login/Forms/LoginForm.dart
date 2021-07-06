@@ -1,4 +1,12 @@
+import 'package:auto_tech/classes/Car.dart';
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
+import 'package:auto_tech/pages/CarRegister/CarRegister.dart';
+import 'package:auto_tech/pages/DashBoard/DashBoard.dart';
+import 'package:auto_tech/pages/Login/Login.dart';
+import 'package:auto_tech/services/realtime/CarRealtime.dart';
+import 'package:auto_tech/services/realtime/UserRealtime.dart';
+import 'package:auto_tech/utils/enums/LoginFormsEnum.dart';
+import 'package:auto_tech/utils/validations/MessageFlushbar.dart';
 import 'package:auto_tech/widgets/stateful/RadioButton.dart';
 import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
 import 'package:auto_tech/widgets/stateless/ButtonLabel.dart';
@@ -6,35 +14,96 @@ import 'package:auto_tech/widgets/stateless/DivisorLabel.dart';
 import 'package:auto_tech/widgets/stateless/FormCard.dart';
 import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginForm extends StatelessWidget with ResponsiveMixin {
-  final teLogin = TextEditingController();
-  final tePassword = TextEditingController();
+class LoginForm extends StatefulWidget {
+  @override
+  _LoginFormState createState() => _LoginFormState();
+}
 
-  formCard() {
-    var nullValidation =
-        (value) => value.isEmpty ? 'Please enter some text' : null;
+class _LoginFormState extends State<LoginForm> with ResponsiveMixin {
+  final _userRealtime = UserRealtime();
+  final _carRealtime = CarRealtime();
+  final _teLogin = TextEditingController();
+  final _tePassword = TextEditingController();
+  final _nullValidation =
+      (value) => value.isEmpty ? 'Please enter some text' : null;
 
-    return FormCard(
-      title: "Login",
-      content: [
-        Textbox(
-          textController: teLogin,
-          validation: nullValidation,
-          textLabel: "Username",
+  bool _rememberMe = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _userRealtime.initState();
+    _carRealtime.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userRealtime.dispose();
+    _carRealtime.dispose();
+  }
+
+  void login(BuildContext context) async {
+    var user = await _userRealtime.getUserByLogin(_teLogin.text);
+
+    if (user == null) {
+      showErrorFloatingFlushbar(context, 'User not found');
+      return;
+    }
+
+    if (user.password != _tePassword.text) {
+      showErrorFloatingFlushbar(context, 'Incorrect Password');
+      return;
+    }
+
+    if (_rememberMe) {
+      var cache = await SharedPreferences.getInstance();
+      cache.setString('userKey', user.key);
+    }
+    
+    var car = await _carRealtime.getCarByUserKey(user.key);
+
+    if (car == null) {
+      redirectToCarRegister(context, user.key);
+      return;
+    }
+
+    redirectToDashBoard(context, car);
+  }
+
+  void redirectToCarRegister(BuildContext context, String userKey) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CarRegister(
+          isEdit: false,
+          userKey: userKey,
         ),
-        Textbox(
-          textController: tePassword,
-          validation: nullValidation,
-          textLabel: "Password",
-        ),
-      ],
+      ),
     );
   }
 
-  login() => null;
+  void redirectToDashBoard(BuildContext context, Car car) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DashBoard(car: car),
+      ),
+    );
+  }
 
-  registerNewUser() => null;
+  void redirectToUserRegister(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Login(
+          formToBuild: LoginFormsEnum.registerForm,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,15 +131,35 @@ class LoginForm extends StatelessWidget with ResponsiveMixin {
           SizedBox(
             height: responsiveHeight(180),
           ),
-          formCard(),
+          FormCard(
+            title: "Login",
+            content: [
+              Textbox(
+                textController: _teLogin,
+                validation: _nullValidation,
+                textLabel: "Username",
+              ),
+              Textbox(
+                textController: _tePassword,
+                validation: _nullValidation,
+                textLabel: "Password",
+              ),
+            ],
+          ),
           SizedBox(height: responsiveHeight(40)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              RadioButton(text: "Keep signed in"),
+              RadioButton(
+                text: "Keep signed in",
+                checked: _rememberMe,
+                onTap: () => setState(
+                  () => _rememberMe = !_rememberMe,
+                ),
+              ),
               ButtonCTA(
                 "SIGNIN",
-                onTap: () => login(),
+                onTap: () => login(context),
               ),
             ],
           ),
@@ -89,7 +178,7 @@ class LoginForm extends StatelessWidget with ResponsiveMixin {
             children: <Widget>[
               ButtonLabel(
                 "SignUp",
-                onTap: () => registerNewUser(),
+                onTap: () => redirectToUserRegister(context),
               )
             ],
           ),

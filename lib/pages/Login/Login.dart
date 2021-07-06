@@ -38,7 +38,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
   final _keyRegister = GlobalKey<FormState>();
   User user;
   UserRealtime userRealtime;
-  List lstUsers;
+  List users;
 
   @override
   void initState() {
@@ -110,7 +110,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
 
   var forgotPasswordFormCard = Text("forgotPasswordFormCard");
 
-  loadUsers() => lstUsers = userRealtime.getUsers();
+  loadUsers() => users = userRealtime.getUsers();
 
   registerNewUser() {
     var isEdit = false;
@@ -165,7 +165,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
         return LoginForm();
         break;
       case LoginFormsEnum.registerForm:
-        return RegisterForm();
+        return RegisterForm(users: users);
         break;
       default:
         return LoginForm();
@@ -312,7 +312,7 @@ class _LoginState extends State<Login> with ResponsiveMixin {
           if (value.isEmpty) return 'Please enter some text';
           if (inputBoxName == "login") {
             bool match = false;
-            lstUsers.any((user) {
+            users.any((user) {
               if (user == value) match = true;
               return match;
             });

@@ -8,24 +8,34 @@ class UserRealtime extends CommonRealtime {
 
   factory UserRealtime() => _instance;
 
-  List getUsers() {
+  List<String> getUsers() {
     var lstUsers = [];
     get().once().then((onValue) {
       Map<dynamic, dynamic> values = onValue.value;
       values.forEach((key, values) {
-        String user = values['Login'];
-        lstUsers.add(user);
+        lstUsers.add(values['Login']);
       });
     });
     return lstUsers;
   }
 
-  Future<User> getUserByLoginKey(String loginKey) async {
+  Future<User> getUserByLoginKey(String key) async {
     var user = await database
         .reference()
         .child('user')
         .orderByKey()
-        .equalTo(loginKey)
+        .equalTo(key)
+        .once();
+
+    return User.fromSnapshotSingle(user);
+  }
+
+  Future<User> getUserByLogin(String login) async {
+    var user = await database
+        .reference()
+        .child('user')
+        .orderByChild('login')
+        .equalTo(login)
         .once();
 
     return User.fromSnapshotSingle(user);

@@ -1,32 +1,15 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
-class RadioButton extends StatefulWidget {
+class RadioButton extends StatelessWidget with ResponsiveMixin {
   final bool checked;
   final String text;
+  final Function onTap;
 
-  const RadioButton({Key key, this.checked = false, this.text})
+  const RadioButton({Key key, this.checked, this.text, this.onTap})
       : super(key: key);
 
-  @override
-  _RadioButtonState createState() => _RadioButtonState();
-}
-
-class _RadioButtonState extends State<RadioButton> with ResponsiveMixin {
-  var _checked;
-
-  @override
-  void initState() {
-    super.initState();
-    _checked = widget.checked;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Container buildRadioInnerBall(bool checked) {
+ Container buildRadioInnerBall(bool checked) {
     if (checked) {
       return Container(
         width: double.infinity,
@@ -60,7 +43,7 @@ class _RadioButtonState extends State<RadioButton> with ResponsiveMixin {
           width: 12.0,
         ),
         GestureDetector(
-          onTap: () => setState(() => _checked = !_checked),
+          onTap: () => onTap?.call(),
           child: Container(
             width: 16.0,
             height: 16.0,
@@ -72,13 +55,13 @@ class _RadioButtonState extends State<RadioButton> with ResponsiveMixin {
                 color: Colors.black,
               ),
             ),
-            child: buildRadioInnerBall(_checked),
+            child: buildRadioInnerBall(checked),
           ),
         ),
         SizedBox(
           width: 8.0,
         ),
-        buildRadioText(widget.text),
+        buildRadioText(text),
       ],
     );
   }
