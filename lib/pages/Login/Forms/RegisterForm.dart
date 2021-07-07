@@ -1,10 +1,10 @@
 import 'package:auto_tech/classes/User.dart';
+import 'package:auto_tech/mixins/Notifications.dart';
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/pages/Login/Login.dart';
 import 'package:auto_tech/services/realtime/CarRealtime.dart';
 import 'package:auto_tech/services/realtime/UserRealtime.dart';
 import 'package:auto_tech/utils/enums/LoginFormsEnum.dart';
-import 'package:auto_tech/utils/validations/MessageFlushbar.dart';
 import 'package:auto_tech/widgets/stateless/ButtonCTA.dart';
 import 'package:auto_tech/widgets/stateless/DivisorLabel.dart';
 import 'package:auto_tech/widgets/stateless/FormCard.dart';
@@ -16,7 +16,7 @@ class RegisterForm extends StatefulWidget {
   _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> with ResponsiveMixin {
+class _RegisterFormState extends State<RegisterForm> with ResponsiveMixin, Notifications {
   final _userRealtime = UserRealtime();
   final _carRealtime = CarRealtime();
   final _key = GlobalKey<FormState>();

@@ -82,10 +82,6 @@ class _CarRegisterState extends State<CarRegister> with ResponsiveMixin {
     );
   }
 
-  Widget buildUpdate(BuildContext context) {
-    return null;
-  }
-
   Widget _addAppBar() {
     if (!_hasCarRegistered) return null;
 
