@@ -1,7 +1,7 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
-class HorizontalLine extends StatelessWidget with ResponsiveMixin {
+class HorizontalLine extends StatelessWidget with Responsive {
   final double width;
   final double height;
   final double horizontalPadding;

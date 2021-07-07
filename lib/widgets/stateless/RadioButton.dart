@@ -1,7 +1,7 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
-class RadioButton extends StatelessWidget with ResponsiveMixin {
+class RadioButton extends StatelessWidget with Responsive {
   final bool checked;
   final String text;
   final Function onTap;

@@ -2,7 +2,7 @@ import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/utils/Colors.dart';
 import 'package:flutter/material.dart';
 
-class ButtonLabel extends StatelessWidget with ResponsiveMixin {
+class ButtonLabel extends StatelessWidget with Responsive {
   final Function onTap;
   final String text;
 

@@ -1,7 +1,7 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
-class FormCard extends StatelessWidget with ResponsiveMixin {
+class FormCard extends StatelessWidget with Responsive {
   final Key formKey;
   final List<Widget> content;
   final String title;

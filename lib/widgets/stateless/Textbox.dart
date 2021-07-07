@@ -1,7 +1,7 @@
 import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:flutter/material.dart';
 
-class Textbox extends StatelessWidget with ResponsiveMixin {
+class Textbox extends StatelessWidget with Responsive {
   final TextEditingController textController;
   final bool enabled;
   final bool obscureText;

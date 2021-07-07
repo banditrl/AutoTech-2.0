@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'ShadowedText.dart';
 
-class ButtonCTA extends StatelessWidget with ResponsiveMixin {
+class ButtonCTA extends StatelessWidget with Responsive {
   final Function onTap;
   final String text;
   final double width;
