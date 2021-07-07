@@ -15,7 +15,7 @@ class Login extends StatefulWidget {
   _LoginState createState() => new _LoginState();
 }
 
-class _LoginState extends State<Login> with ResponsiveMixin {
+class _LoginState extends State<Login> with Responsive {
 
   @override
   void initState() {

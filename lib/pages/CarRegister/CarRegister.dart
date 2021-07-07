@@ -16,7 +16,7 @@ class CarRegister extends StatefulWidget {
   _CarRegisterState createState() => _CarRegisterState();
 }
 
-class _CarRegisterState extends State<CarRegister> with ResponsiveMixin {
+class _CarRegisterState extends State<CarRegister> with Responsive {
   final _carRealtime = CarRealtime();
   final _key = GlobalKey<FormState>();
   final _teBrand = TextEditingController();

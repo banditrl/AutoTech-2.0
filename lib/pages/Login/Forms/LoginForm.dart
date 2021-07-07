@@ -21,7 +21,7 @@ class LoginForm extends StatefulWidget {
   _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> with ResponsiveMixin, Notifications {
+class _LoginFormState extends State<LoginForm> with Responsive, Notifications {
   final _userRealtime = UserRealtime();
   final _carRealtime = CarRealtime();
   final _key = GlobalKey<FormState>();

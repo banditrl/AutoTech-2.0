@@ -8,7 +8,7 @@ void _portraitModeOnly() {
   ]);
 }
 
-mixin PortraitModeMixin on StatelessWidget {
+mixin PortraitMode on StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _portraitModeOnly();

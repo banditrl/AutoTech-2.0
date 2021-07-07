@@ -5,7 +5,7 @@ import 'package:auto_tech/widgets/stateless/FormCard.dart';
 import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
 
-class ForgotForm extends StatelessWidget with ResponsiveMixin {
+class ForgotForm extends StatelessWidget with Responsive {
   final teLogin = TextEditingController();
   final tePassword = TextEditingController();
   final teEmail = TextEditingController();

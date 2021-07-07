@@ -2,7 +2,7 @@ import 'package:auto_tech/mixins/ResponsiveScreen.dart';
 import 'package:auto_tech/widgets/stateless/Textbox.dart';
 import 'package:flutter/material.dart';
 
-class CarRegisterForm extends StatelessWidget with ResponsiveMixin {
+class CarRegisterForm extends StatelessWidget with Responsive {
   final TextEditingController teBrand;
   final TextEditingController teModel;
   final TextEditingController teDescription;

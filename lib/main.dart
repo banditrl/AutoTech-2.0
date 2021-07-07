@@ -5,7 +5,7 @@ import 'pages/SplashScreen/SplashScreen.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget with PortraitModeMixin {
+class MyApp extends StatelessWidget with PortraitMode {
   @override
   Widget build(BuildContext context) {
     super.build(context);

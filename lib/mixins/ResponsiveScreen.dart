@@ -51,7 +51,7 @@ class _ResponsiveScreen {
   double get textScaleFactor => _textScaleFactor;
 }
 
-mixin ResponsiveMixin {
+mixin Responsive {
   void responsiveInit(BuildContext context) => _responsive.init(context);
 
   double responsiveWidth(double width) => width * _responsive.scaleWidth;

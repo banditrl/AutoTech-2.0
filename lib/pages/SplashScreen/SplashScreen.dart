@@ -20,7 +20,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin, ResponsiveMixin {
+    with TickerProviderStateMixin, Responsive {
   final _userRealtime = UserRealtime();
   final _carRealtime = CarRealtime();
   AnimationController _animationController;

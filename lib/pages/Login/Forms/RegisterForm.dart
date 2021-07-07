@@ -16,7 +16,7 @@ class RegisterForm extends StatefulWidget {
   _RegisterFormState createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> with ResponsiveMixin, Notifications {
+class _RegisterFormState extends State<RegisterForm> with Responsive, Notifications {
   final _userRealtime = UserRealtime();
   final _carRealtime = CarRealtime();
   final _key = GlobalKey<FormState>();
