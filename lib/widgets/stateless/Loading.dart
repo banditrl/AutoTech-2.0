@@ -19,37 +19,34 @@ class Loading extends StatelessWidget {
       : super(key: key);
 
   List<Widget> _buildWidgets() {
-    var widgets = [];
-
-    widgets.add(
+    return [
       SpinKitRing(
         color: color,
         size: size,
         lineWidth: 3.0,
       ),
-    );
+      _addText(),
+    ];
+  }
 
-    if (text != null) {
-      widgets.add(
-        Padding(
-          padding: EdgeInsets.only(top: 20.0, right: 50.0),
-        ),
-      );
+  Widget _addText() {
+    if (text == null) return null;
 
-      widgets.add(
-        Center(
-          child: Text(
-            text,
-            softWrap: true,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-                fontFamily: "Poppins-Bold", fontSize: 14.0, color: textColor),
+    return Container(
+      padding: EdgeInsets.only(top: 20.0, right: 50.0),
+      child: Center(
+        child: Text(
+          text,
+          softWrap: true,
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: "Poppins-Bold",
+            fontSize: 14.0,
+            color: textColor,
           ),
         ),
-      );
-    }
-
-    return widgets;
+      ),
+    );
   }
 
   @override
@@ -58,7 +55,7 @@ class Loading extends StatelessWidget {
       return Column(
         children: _buildWidgets(),
       );
-      
+
     return Row(
       children: _buildWidgets(),
     );
